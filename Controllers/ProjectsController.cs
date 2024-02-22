@@ -21,8 +21,6 @@ namespace ProjectTestDotNet.Controllers
         {
             try
             {
-                
-
                 var allProjectDtos = new List<ProjectDTO>();
                 using (var repos = new Projectrepository())
                 {
