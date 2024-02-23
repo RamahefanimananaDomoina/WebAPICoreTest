@@ -64,5 +64,32 @@ namespace ProjectTestDotNet.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/project/getProjectById/{id}")]
+        public ObjectResult GetProjectById(Guid id)
+        {
+            try
+            {
+                using (var repos = new Projectrepository())
+                {
+                    var projectDtoSelected = repos.project.ToList().Where(x => x.uuid == id).FirstOrDefault();
+                    if (projectDtoSelected != null)
+                    {
+                        var mappedProjectDto = _mapper.Map<ProjectDTO>(projectDtoSelected);
+                        return StatusCode(200, mappedProjectDto);
+                    }
+                    else
+                    {
+                        return StatusCode(404, $"Project with ID {id} not found.");
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
+        }
+
     }
 }
